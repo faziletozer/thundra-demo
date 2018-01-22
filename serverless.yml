@@ -1,0 +1,61 @@
+service: lambda-demo
+
+custom:
+  deploymentBucket: thundra-demo-fazilet
+  stage: dev
+  region: us-west-2
+  thundraApiKey: thundra-demo
+
+plugins:
+  - serverless-plugin-thundra-monitor-cw # npm install --save serverless-plugin-thundra-monitor-cw
+
+package:
+  artifact: target/lambda.demo-1.0-SNAPSHOT.jar
+
+provider:
+  name: aws
+  runtime: java8
+  stage: ${self:custom.stage}
+  region: ${self:custom.region}
+  profile: default
+  memorySize: 1536
+  timeout: 300
+  deploymentBucket: ${self:custom.deploymentBucket}
+  tracing: true
+  environment:
+    opsgenie_profile: ${self:custom.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - logs:*
+      Resource: [
+        "*"
+      ]
+    - Effect: Allow
+      Action:
+        - lambda:*
+      Resource: [
+        "*"
+      ]
+    - Effect: Allow
+      Action:
+        - xray:*
+      Resource: [
+        "*"
+      ]
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: [
+              "*"
+      ]
+
+functions:
+  get-lambda-handler:
+      name: get-lambda-handler
+      handler: com.opsgenie.thundra.lambda.demo.test.handler.GetPersonHandler
+      thundraMonitoredOverCW: true
+  fazilet-lambda-handler:
+      name: fazilet-lambda-handler
+      handler: com.opsgenie.thundra.lambda.demo.test.handler.SavePersonHandler
+      thundraMonitoredOverCW: true
