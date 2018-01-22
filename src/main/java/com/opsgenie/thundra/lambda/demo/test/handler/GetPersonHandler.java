@@ -19,18 +19,6 @@ public class GetPersonHandler
 
     private DynamoDBClient dynamoDBClient;
 
-//    public PersonResponse handleRequest(PersonGetRequest personGetRequest, Context context) {
-//        dynamoDBClient = new DynamoDBClient();
-//
-//        GetItemOutcome getItemOutcome = fetchData(personGetRequest);
-//        Map<String, Object> itemAsMap = getItemOutcome.getItem().asMap();
-//
-//        PersonResponse personResponse = new PersonResponse();
-//        personResponse.setMessage("Get successfully!");
-//        personResponse.setItem(itemAsMap);
-//        return personResponse;
-//    }
-
     private GetItemOutcome fetchData(PersonGetRequest personGetRequest) {
 
         return dynamoDBClient.getDynamoDBTable()

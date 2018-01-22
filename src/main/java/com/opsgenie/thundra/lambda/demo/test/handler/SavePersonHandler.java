@@ -18,19 +18,7 @@ import com.opsgenie.thundra.lambda.demo.test.request.PersonSaveRequest;
 public class SavePersonHandler
         implements ThundraLambdaRequestHandler<PersonSaveRequest, PersonResponse> {
 
-
-    DynamoDBClient dynamoDBClient;
-
-//    public PersonResponse handleRequest(PersonSaveRequest personGetRequest, Context context) {
-//
-//        dynamoDBClient = new DynamoDBClient();
-//
-//        persistData(personGetRequest);
-//
-//        PersonResponse personResponse = new PersonResponse();
-//        personResponse.setMessage("Saved Successfully!!!");
-//        return personResponse;
-//    }
+    private DynamoDBClient dynamoDBClient;
 
     private PutItemOutcome persistData(PersonSaveRequest personGetRequest) throws ConditionalCheckFailedException {
         return dynamoDBClient.getDynamoDBTable()
